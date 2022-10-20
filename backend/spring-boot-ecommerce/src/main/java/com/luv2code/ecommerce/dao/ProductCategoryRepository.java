@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 //https://openhome.cc/Gossip/Spring/RepositoryRestResource.html
 //collectionResourceRel = "productCategory" 為 Name of JSON entry
-//path = "product-category" 為 /product-category
+//path = "path" 為 /product-category
 @RepositoryRestResource(collectionResourceRel = "productCategory",path = "product-category")
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory,Long> {
 }

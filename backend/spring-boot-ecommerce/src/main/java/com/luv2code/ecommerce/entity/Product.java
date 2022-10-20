@@ -43,15 +43,15 @@ public class Product {
     @Column(name ="active")
     private boolean active;
 
-    @Column(name ="unit_in_stock")
+    @Column(name ="units_in_stock")
     private Integer unitsInStock;
 
-    @Column(name ="date_create")
+    @Column(name ="date_created")
     //Hibernate will automatically manage the timestamps
     @CreationTimestamp
-    private Date dateCreate;
+    private Date dateCreated;
 
-    @Column(name ="last_update")
+    @Column(name ="last_updated")
     //Hibernate will automatically manage the timestamps
     @UpdateTimestamp
     private Date lastUpdated;

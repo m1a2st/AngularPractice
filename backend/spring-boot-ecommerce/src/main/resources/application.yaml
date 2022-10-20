@@ -12,6 +12,9 @@ spring:
       ddl-auto: none
     show-sql: true
     open-in-view: false
-    data:
-      rest:
-        base-path: /api
+#    data:
+#      rest:
+#        basepath: /api
+  mvc:
+    servlet:
+      path: /api

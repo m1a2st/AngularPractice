@@ -57,5 +57,5 @@ public class Product {
     private Date lastUpdated;
 
     @Column(name = "category_id")
-    private Integer categoryId;
+    private Long categoryId;
 }

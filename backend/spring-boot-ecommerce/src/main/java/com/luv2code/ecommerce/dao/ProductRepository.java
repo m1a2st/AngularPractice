@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     //Spring Data REST automatically expose endpoint
-    //http://localhost:8080/api/product/search/findByCategoryId?id=2
+    //http://localhost:8080/api/products/search/findByCategoryId?id=2
     public Page<Product> findByCategoryId(@Param("id") Long id, Pageable pageable);
 }

@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
   currentCategoryId: number = 1;
+  currentCategoryName = '';
 
   //This current active route that loaded the component. Useful for accessing route parameters.
   constructor(
@@ -28,6 +29,7 @@ export class ProductListComponent implements OnInit {
   listProducts() {
     //check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+    const hasCategoryName: boolean = this.route.snapshot.paramMap.has('name');
 
     if (hasCategoryId) {
       //get the "id" param string. convert string to a number using the "+" symbol
@@ -38,13 +40,18 @@ export class ProductListComponent implements OnInit {
       this.currentCategoryId = 1;
     }
 
+    if (hasCategoryId) {
+      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
+    } else {
+      this.currentCategoryName = '';
+    }
+
     //Method is invoke once you "subscribe"
     //now get the products for the given category id
     this.productService
       .getProductList(this.currentCategoryId)
       .subscribe((data) => {
         //Assign results to the Product array
-        console.log(data);
         this.products = data;
       });
   }

@@ -12,6 +12,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   currentCategoryId: number = 1;
   currentCategoryName = '';
+  searchMode: boolean = false;
 
   //This current active route that loaded the component. Useful for accessing route parameters.
   constructor(
@@ -27,6 +28,25 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts() {
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+
+    if (this.searchMode) {
+      this.handleSearchtProducts();
+    } else {
+      this.handleListProducts();
+    }
+  }
+
+  handleSearchtProducts() {
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
+
+    //now search for the product usingkeyword
+    this.productService.searchProducts(theKeyword).subscribe((data) => {
+      this.products = data;
+    });
+  }
+
+  handleListProducts() {
     //check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
     const hasCategoryName: boolean = this.route.snapshot.paramMap.has('name');
@@ -35,14 +55,10 @@ export class ProductListComponent implements OnInit {
       //get the "id" param string. convert string to a number using the "+" symbol
       //This is the not-null assertion operator. Tell compiler that the object is not null.
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
     } else {
       //not category id available ... default to category id 1
       this.currentCategoryId = 1;
-    }
-
-    if (hasCategoryId) {
-      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
-    } else {
       this.currentCategoryName = '';
     }
 

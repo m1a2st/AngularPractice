@@ -11,8 +11,14 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
   currentCategoryId: number = 1;
+  previosCategoryId: number = 1;
   currentCategoryName = '';
   searchMode: boolean = false;
+
+  // new properties for pagenation
+  thePageNumber: number = 1;
+  thePageSize: number = 10;
+  theTotalElements: number = 1;
 
   //This current active route that loaded the component. Useful for accessing route parameters.
   constructor(
@@ -62,13 +68,35 @@ export class ProductListComponent implements OnInit {
       this.currentCategoryName = '';
     }
 
+    //
+    //check if we haved a different category than previos
+    //Note: Angular will reuse component if it is currently being viewed
+    //
+
+    //if we have dirrerent category id than previos
+    //than set the PageNumber back to 1
+    if (this.previosCategoryId != this.currentCategoryId) {
+      this.thePageNumber = 1;
+    }
+
+    this.previosCategoryId = this.currentCategoryId;
+    console.log(
+      `currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`
+    );
+
     //Method is invoke once you "subscribe"
     //now get the products for the given category id
     this.productService
-      .getProductList(this.currentCategoryId)
+      .getProductListPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        this.currentCategoryId
+      )
       .subscribe((data) => {
-        //Assign results to the Product array
-        this.products = data;
+        this.products = data._embedded.product;
+        this.thePageNumber = data.page.number + 1;
+        this.thePageSize = data.page.size;
+        this.theTotalElements = data.page.totalElements;
       });
   }
 }

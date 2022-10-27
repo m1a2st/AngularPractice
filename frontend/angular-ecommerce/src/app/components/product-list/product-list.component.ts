@@ -17,8 +17,8 @@ export class ProductListComponent implements OnInit {
 
   // new properties for pagenation
   thePageNumber: number = 1;
-  thePageSize: number = 10;
-  theTotalElements: number = 1;
+  thePageSize: number = 5;
+  theTotalElements: number = 0;
 
   //This current active route that loaded the component. Useful for accessing route parameters.
   constructor(
@@ -98,5 +98,11 @@ export class ProductListComponent implements OnInit {
         this.thePageSize = data.page.size;
         this.theTotalElements = data.page.totalElements;
       });
+  }
+
+  updatePageSize(pageSize: string) {
+    this.thePageSize = +pageSize;
+    this.thePageNumber = 1;
+    this.listProducts();
   }
 }

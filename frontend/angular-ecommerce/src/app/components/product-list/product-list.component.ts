@@ -1,3 +1,5 @@
+import { CartService } from './../../service/cart.service';
+import { CartItem } from './../../common/cart-item';
 import { Product } from 'src/app/common/product';
 import { ProductService } from 'src/app/service/product.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
+  //than set the PageNumber back to 1
   products: Product[] = [];
   currentCategoryId: number = 1;
   previosCategoryId: number = 1;
@@ -20,10 +23,13 @@ export class ProductListComponent implements OnInit {
   thePageSize: number = 5;
   theTotalElements: number = 0;
 
+  previousKeyword: string = '';
+
   //This current active route that loaded the component. Useful for accessing route parameters.
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cartService: CartService
   ) {}
 
   //similar to @PostConstruct
@@ -46,10 +52,25 @@ export class ProductListComponent implements OnInit {
   handleSearchtProducts() {
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
+    //if we have a different keyword than previous
+    //then set thePageNumber to 1
+    if (this.previousKeyword != theKeyword) {
+      this.thePageNumber = 1;
+    }
+    console.log(`keyword=${theKeyword}, thePageNumber=${this.thePageNumber}`);
+    this.previousKeyword = theKeyword;
+
     //now search for the product usingkeyword
-    this.productService.searchProducts(theKeyword).subscribe((data) => {
-      this.products = data;
-    });
+    // this.productService.searchProducts(theKeyword).subscribe((data) => {
+    //   this.products = data;
+    // });
+    this.productService
+      .searchProductsPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        theKeyword
+      )
+      .subscribe(this.processResult());
   }
 
   handleListProducts() {
@@ -92,17 +113,26 @@ export class ProductListComponent implements OnInit {
         this.thePageSize,
         this.currentCategoryId
       )
-      .subscribe((data) => {
-        this.products = data._embedded.product;
-        this.thePageNumber = data.page.number + 1;
-        this.thePageSize = data.page.size;
-        this.theTotalElements = data.page.totalElements;
-      });
+      .subscribe(this.processResult());
   }
 
   updatePageSize(pageSize: string) {
     this.thePageSize = +pageSize;
     this.thePageNumber = 1;
     this.listProducts();
+  }
+
+  processResult() {
+    return (data: any) => {
+      this.products = data._embedded.product;
+      this.thePageNumber = data.page.number + 1;
+      this.thePageSize = data.page.size;
+      this.theTotalElements = data.page.totalElements;
+    };
+  }
+
+  addToCart(theProduct: Product) {
+    const theCartItem = new CartItem(theProduct);
+    this.cartService.addToCart(theCartItem);
   }
 }

@@ -1,7 +1,9 @@
 package com.luv2code.ecommerce.config;
 
+import com.luv2code.ecommerce.entity.Country;
 import com.luv2code.ecommerce.entity.Product;
 import com.luv2code.ecommerce.entity.ProductCategory;
+import com.luv2code.ecommerce.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -36,6 +38,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         entityNoSupportHttpMethod(config, Product.class, theUnsupportedActions);
         // disable HTTP methods for productCategory: PUT, POST, and DELETE
         entityNoSupportHttpMethod(config, ProductCategory.class, theUnsupportedActions);
+        // disable HTTP methods for country: PUT, POST, and DELETE
+        entityNoSupportHttpMethod(config, Country.class, theUnsupportedActions);
+        // disable HTTP methods for country: PUT, POST, and DELETE
+        entityNoSupportHttpMethod(config, State.class, theUnsupportedActions);
 
         //call an internal helper method
         exposeIds(config);

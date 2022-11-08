@@ -1,3 +1,4 @@
+import { CartService } from './../../service/cart.service';
 import { Country } from './../../common/country';
 import { Luv2ShopFormService } from './../../service/luv2-shop-form.service';
 import { Component, OnInit } from '@angular/core';
@@ -30,10 +31,13 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private luv2ShopFormService: Luv2ShopFormService
+    private luv2ShopFormService: Luv2ShopFormService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+    this.reviewCartDetails();
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [
@@ -188,12 +192,6 @@ export class CheckoutComponent implements OnInit {
   get creditCardSecurityCode() {
     return this.checkoutFormGroup.get('creditCard.securityCode');
   }
-  // get creditCardExpirationMonth() {
-  //   return this.checkoutFormGroup.get('creditCard.expirationMonth');
-  // }
-  // get creditCardExpirationYear() {
-  //   return this.checkoutFormGroup.get('creditCard.expirationYear');
-  // }
 
   copyShippingAddressToBillingAddress(event: any) {
     if (event.target.checked) {
@@ -244,6 +242,17 @@ export class CheckoutComponent implements OnInit {
       }
       //select first item my default
       formGroup!.get('state')!.setValue(data[0]);
+    });
+  }
+
+  reviewCartDetails() {
+    // subscribe to cartService.totalQuantity
+    this.cartService.totalQuantity.subscribe((totalQuantity) => {
+      this.totalQuantity = totalQuantity;
+    });
+    // subscribe to cartService.totalPrice
+    this.cartService.totalPrice.subscribe((totalPrice) => {
+      this.totalPrice = totalPrice;
     });
   }
 }

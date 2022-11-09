@@ -15,9 +15,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @EntityScan("com.boot.demo.xxx.entity")
  * 用於掃描JPA實體類 @Entity
  */
-@ComponentScan("com.luv2code.ecommerce.config")
+@ComponentScan(basePackages = {"com.luv2code.ecommerce.config","com.luv2code.ecommerce.service","com.luv2code.ecommerce.controller"})
 @EntityScan("com.luv2code.ecommerce.entity")
-@EnableJpaRepositories("com.luv2code.ecommerce")
+@EnableJpaRepositories("com.luv2code.ecommerce.dao")
 @SpringBootApplication
 public class SpringBootEcommerceApplication {
 

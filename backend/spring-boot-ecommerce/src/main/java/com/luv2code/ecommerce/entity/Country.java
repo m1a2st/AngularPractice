@@ -1,7 +1,7 @@
 package com.luv2code.ecommerce.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;

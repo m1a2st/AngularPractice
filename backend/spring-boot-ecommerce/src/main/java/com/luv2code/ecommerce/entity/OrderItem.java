@@ -1,37 +1,44 @@
 package com.luv2code.ecommerce.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-/**
- * @Author
- * @Date
- * @Version
- * @Description
- */
 @Entity
-@Data
-@Table(name = "order_item")
+@Table(name="order_item")
+@Getter
+@Setter
 public class OrderItem {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
-    @Column( name = "image_url")
+
+    @Column(name="image_url")
     private String imageUrl;
-    @Column(name = "quantity")
-    private Integer quantity;
-    @Column(name = "unit_price")
+
+    @Column(name="unit_price")
     private BigDecimal unitPrice;
-    @Column(name = "order_id")
-    private Integer orderId;
-    @Column(name = "product_id")
-    private Integer productId;
+
+    @Column(name="quantity")
+    private Integer quantity;
+
+    @Column(name="product_id")
+    private Long productId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id",nullable = false,insertable = false,updatable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
 
 }
+
+
+
+
+
+
+
+

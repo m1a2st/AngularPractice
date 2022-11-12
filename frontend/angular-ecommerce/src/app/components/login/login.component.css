@@ -16,9 +16,9 @@
 }
 
 /*
-    Copy from styles.css -> .form-header
-    Rename as .login-status-header
-*/
+        Copy from styles.css -> .form-header
+        Rename as .login-status-header
+    */
 .login-status-header {
   display: -webkit-box;
   display: -webkit-flex;
@@ -28,10 +28,10 @@
 }
 
 /*
-    Copy from styles.css -> .au-input
-    Rename as .login-status-user-info
-    - remove 'solid', 'font-size', 'color'
-*/
+        Copy from styles.css -> .au-input
+        Rename as .login-status-user-info
+        - remove 'solid', 'font-size', 'color'
+    */
 .login-status-user-info {
   line-height: 43px;
   border: 1px;

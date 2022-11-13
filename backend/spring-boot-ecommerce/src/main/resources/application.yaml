@@ -12,9 +12,12 @@ spring:
       ddl-auto: none
     show-sql: false
     open-in-view: false
-#    data:
-#      rest:
-#        basepath: /api
-  mvc:
-    servlet:
-      path: /api
+  data:
+    rest:
+      base-path: /api
+      detection-strategy: annotated
+allowed:
+  origins: http://localhost:4200
+#  mvc:
+#    servlet:
+#      path: /api

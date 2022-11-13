@@ -1,10 +1,11 @@
+import { AuthInterceptorService } from './service/auth-interceptor.service';
 import { ProductService } from './service/product.service';
 import { NgModule, Inject, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
@@ -26,6 +27,7 @@ import { OktaAuthModule } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 import myAppConfig from './config/my-app-config';
 import { MemberPageComponent } from './components/member-page/member-page.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -40,6 +42,12 @@ const routes: Routes = [
   {
     path: 'members',
     component: MemberPageComponent,
+    canActivate: [OktaAuthGuard],
+    data: { onAuthPequired: sendToLoginPage },
+  },
+  {
+    path: 'order-history',
+    component: OrderHistoryComponent,
     canActivate: [OktaAuthGuard],
     data: { onAuthPequired: sendToLoginPage },
   },
@@ -73,6 +81,7 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MemberPageComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -82,7 +91,15 @@ const routes: Routes = [
     ReactiveFormsModule,
     OktaAuthModule,
   ],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth } }],
+  providers: [
+    ProductService,
+    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

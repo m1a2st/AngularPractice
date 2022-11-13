@@ -7,7 +7,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
     show-sql: false
@@ -21,3 +21,7 @@ allowed:
 #  mvc:
 #    servlet:
 #      path: /api
+okta:
+  oauth2:
+    client-id: 0oa786pf7nppWtDiH5d7
+    issuer: https://dev-07369845.okta.com/oauth2/default

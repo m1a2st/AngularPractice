@@ -17,7 +17,7 @@ spring:
       base-path: /api
       detection-strategy: annotated
 allowed:
-  origins: http://localhost:4200
+  origins: https://localhost:4200
 #  mvc:
 #    servlet:
 #      path: /api
@@ -25,3 +25,18 @@ okta:
   oauth2:
     client-id: 0oa786pf7nppWtDiH5d7
     issuer: https://dev-07369845.okta.com/oauth2/default
+#HTTPS Configuration
+# Server web port
+server:
+  port: 8443
+  # Enable HTTPS support (only accept HTTPS requests)
+  ssl:
+    enabled: true
+  # Alias that identifies the key in the key store
+    key-alias: luv2code
+  # Keystore location
+    key-store: classpath:luv2code-keystore.p12
+  # Keystore password
+    key-store-password: secret
+  # Keystore format
+    key-store-type: PKCS12

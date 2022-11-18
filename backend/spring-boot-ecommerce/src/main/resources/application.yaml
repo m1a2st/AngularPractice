@@ -40,3 +40,8 @@ server:
     key-store-password: secret
   # Keystore format
     key-store-type: PKCS12
+
+#Payment Processing with Stripe
+stripe:
+  key:
+    secret: sk_test_51M4Qn4DWs9qQuJEzdsFfSaJ6fgneb94jtjPnYZIZP2vBVa5ZVMXqTG7Y6C5zzoLvSLOqtqz4gJSouGF6m9IwcOXE00LiZMGjOp
